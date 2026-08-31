@@ -16,13 +16,14 @@
 </head>
 <body>
 
-    <!-- Arka Plan Canvas Katmanları -->
-    <canvas id="universe-canvas" class="canvas-layer"></canvas>
-    <canvas id="mood-canvas" class="canvas-layer"></canvas>
-    <canvas id="wish-canvas" class="canvas-layer"></canvas>
-    <canvas id="fireworks-canvas" class="canvas-layer"></canvas>
-    <canvas id="physics-canvas" class="canvas-layer"></canvas>
-    <canvas id="frost-canvas" class="canvas-layer"></canvas>
+    <!-- Arka Plan Canvas Katmanları (Z-Index Hiyerarşisi) -->
+    <canvas id="universe-canvas" class="canvas-layer" style="z-index: 1;"></canvas>
+    <canvas id="ecosystem-canvas" class="canvas-layer" style="z-index: 2;"></canvas>
+    <canvas id="mood-canvas" class="canvas-layer" style="z-index: 3;"></canvas>
+    <canvas id="wish-canvas" class="canvas-layer" style="z-index: 4;"></canvas>
+    <canvas id="fireworks-canvas" class="canvas-layer" style="z-index: 5;"></canvas>
+    <canvas id="physics-canvas" class="canvas-layer" style="z-index: 6;"></canvas>
+    <canvas id="frost-canvas" class="canvas-layer" style="z-index: 7;"></canvas>
 
     <!-- Nadir Görsel Anomali Varlıkları -->
     <div id="rare-eclipse" class="rare-eclipse hidden"></div>
@@ -76,6 +77,11 @@
                 <!-- Anomali Koleksiyon Albümü -->
                 <button id="btn-open-album" class="btn-glass" title="Keşfedilen Nadir Olaylar Albümü">
                     🏆 <span class="btn-label">Anomaliler</span> <span id="album-count-badge" class="badge-pill">0/6</span>
+                </button>
+
+                <!-- Ayarlar -->
+                <button id="btn-open-settings" class="btn-glass" title="Deneyim & Olay Sıklığı Ayarları">
+                    ⚙️ <span class="btn-label">Ayarlar</span>
                 </button>
 
                 <!-- Tipografi Modu -->
@@ -238,6 +244,42 @@
         </div>
     </div>
 
+    <!-- AYARLAR MODALI -->
+    <div id="settings-modal" class="album-modal-backdrop">
+        <div class="album-modal-card" style="max-width: 480px;">
+            <div class="album-header">
+                <h2 class="album-title">⚙️ Deneyim & Olay Ayarları</h2>
+                <button id="close-settings-btn" class="btn-glass">Kapat</button>
+            </div>
+            
+            <div style="display: flex; flex-direction: column; gap: 16px; margin-top: 10px;">
+                <!-- Olay Sıklığı -->
+                <div>
+                    <label style="font-weight: 700; font-size: 0.9rem; display: block; margin-bottom: 6px;">⚡ Olay / Efekt Sıklığı:</label>
+                    <select id="select-frequency" class="select-glass" style="width: 100%;">
+                        <option value="frequent">🔥 Sürekli Canlı (~30 sn aralıklar)</option>
+                        <option value="balanced" selected>⚖️ Dengeli & Akıcı (~60 sn aralıklar)</option>
+                        <option value="calm">☕ Sakin / Dingin (~3 dk aralıklar)</option>
+                    </select>
+                </div>
+
+                <!-- OLED Yanma Önleyici -->
+                <div>
+                    <label style="font-weight: 700; font-size: 0.9rem; display: block; margin-bottom: 6px;">🛡️ OLED & TV Yanma Koruması:</label>
+                    <select id="select-oled" class="select-glass" style="width: 100%;">
+                        <option value="on" selected>Açık (Her 7 dk mikro piksel kaydırma)</option>
+                        <option value="off">Kapalı</option>
+                    </select>
+                </div>
+
+                <!-- Bilgi Notu -->
+                <p style="font-size: 0.75rem; color: rgba(255,255,255,0.6); line-height: 1.4;">
+                    💡 İpucu: Fareyi 5 saniye hareket ettirmediğinizde ekran otomatik olarak sinematik Screensaver TV Moduna geçer.
+                </p>
+            </div>
+        </div>
+    </div>
+
     <!-- 11:11 / 22:22 Dilek Modu Pop-Up -->
     <div id="wish-modal" class="wish-modal-backdrop">
         <div class="wish-modal-card">
@@ -257,6 +299,7 @@
     <!-- JS Modül Dosyaları -->
     <script src="js/audio.js"></script>
     <script src="js/moods.js"></script>
+    <script src="js/ecosystemEngine.js"></script>
     <script src="js/universeEngine.js"></script>
     <script src="js/eventManager.js"></script>
     <script src="js/radar.js"></script>

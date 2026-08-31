@@ -31,16 +31,29 @@ class EventManager {
             });
         }
 
-        // Açılışta ilk 12 saniye saat tertemiz ve sakin başlar, ardından rastgele ambient olaylar devreye girer
+        // Açılışta ilk 10 saniye saat tertemiz ve sakin başlar, ardından rastgele ambient olaylar devreye girer
+        this.frequencyMode = 'balanced'; // 'frequent' (25-40s), 'balanced' (45-75s), 'calm' (120-180s)
         setTimeout(() => {
             this.startRandomAmbientLoop();
-        }, 12000);
+        }, 10000);
+    }
+
+    setFrequency(mode) {
+        this.frequencyMode = mode;
+        if (window.radarHUD) {
+            window.radarHUD.addLogEntry(`Olay Sıklığı Güncellendi: ${mode}`);
+        }
+    }
+
+    getDelayRange() {
+        if (this.frequencyMode === 'frequent') return 25000 + Math.random() * 15000; // ~30 sn
+        if (this.frequencyMode === 'calm') return 120000 + Math.random() * 60000;    // ~3 dk
+        return 45000 + Math.random() * 30000; // ~60 sn (Dengeli)
     }
 
     startRandomAmbientLoop() {
         const scheduleNext = () => {
-            // 25 ile 45 saniye arasında rastgele aralıklarla sürpriz olay seçimi
-            const nextDelay = 25000 + Math.random() * 20000;
+            const nextDelay = this.getDelayRange();
             setTimeout(() => {
                 this.triggerRandomAmbientEvent();
                 scheduleNext();
@@ -53,6 +66,10 @@ class EventManager {
         if (this.isBusy) return;
 
         const ambientPool = [
+            'bird_flock',      // Göç eden kuş sürüsü
+            'sakura_wind',     // Savrulan kiraz çiçeği yaprakları
+            'jellyfish',       // Süzülen kozmik denizanaları
+            'matrix_glitch',   // Matrix kod yağmuru
             'theme_shift',     // Yumuşak renk teması değişimi
             'shooting_star',   // Kayan parlak yıldızlar
             'balloons',        // Süzülen renkli balonlar
@@ -67,6 +84,22 @@ class EventManager {
         const pick = ambientPool[Math.floor(Math.random() * ambientPool.length)];
 
         switch (pick) {
+            case 'bird_flock':
+                if (window.ecosystemEngine) window.ecosystemEngine.spawnBirdFlock();
+                if (window.radarHUD) window.radarHUD.addLogEntry('🕊️ Göç Eden Kuş Sürüsü');
+                break;
+            case 'sakura_wind':
+                if (window.ecosystemEngine) window.ecosystemEngine.spawnWindGust('sakura');
+                if (window.radarHUD) window.radarHUD.addLogEntry('🌸 Sakura Rüzgarı');
+                break;
+            case 'jellyfish':
+                if (window.ecosystemEngine) window.ecosystemEngine.spawnJellyfishSwarm();
+                if (window.radarHUD) window.radarHUD.addLogEntry('🪼 Süzülen Deniz Anaları');
+                break;
+            case 'matrix_glitch':
+                if (window.ecosystemEngine) window.ecosystemEngine.triggerMatrixGlitch(5000);
+                if (window.radarHUD) window.radarHUD.addLogEntry('💻 Matrix Kod Yağmuru');
+                break;
             case 'theme_shift':
                 if (window.app) window.app.triggerColorSplash();
                 break;
@@ -76,6 +109,7 @@ class EventManager {
                         setTimeout(() => window.wishMode.spawnShootingStar(), i * 400);
                     }
                     if (window.soundEngine) window.soundEngine.playWishChime();
+                    if (window.radarHUD) window.radarHUD.addLogEntry('💫 Kayan Yıldızlar');
                 }
                 break;
             case 'balloons':

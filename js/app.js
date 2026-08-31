@@ -61,6 +61,9 @@ class LiveClockApp {
         const universeCanvas = document.getElementById('universe-canvas');
         if (universeCanvas) window.universeEngine.init(universeCanvas);
 
+        const ecosystemCanvas = document.getElementById('ecosystem-canvas');
+        if (ecosystemCanvas) window.ecosystemEngine.init(ecosystemCanvas);
+
         const moodCanvas = document.getElementById('mood-canvas');
         if (moodCanvas) window.moodEngine.init(moodCanvas);
 
@@ -108,6 +111,24 @@ class LiveClockApp {
                 lofiBtn.innerHTML = active 
                     ? '🎵 <span class="btn-label">Lo-Fi: Açık</span>' 
                     : '🎵 <span class="btn-label">Lo-Fi Ambiyans</span>';
+            });
+        }
+
+        // Ayarlar Modalı Aç / Kapat
+        const btnSettings = document.getElementById('btn-open-settings');
+        const settingsModal = document.getElementById('settings-modal');
+        const closeSettings = document.getElementById('close-settings-btn');
+        const selectFreq = document.getElementById('select-frequency');
+
+        if (btnSettings && settingsModal) {
+            btnSettings.addEventListener('click', () => settingsModal.classList.add('active'));
+        }
+        if (closeSettings && settingsModal) {
+            closeSettings.addEventListener('click', () => settingsModal.classList.remove('active'));
+        }
+        if (selectFreq) {
+            selectFreq.addEventListener('change', (e) => {
+                window.eventManager.setFrequency(e.target.value);
             });
         }
 
@@ -187,6 +208,11 @@ class LiveClockApp {
         if (s !== this.lastSecond) {
             this.lastSecond = s;
             this.updateClockDisplay(now);
+
+            // 59. Saniye Sonar Şok Dalgası
+            if (s === 59 && window.ecosystemEngine) {
+                window.ecosystemEngine.triggerSonarWave();
+            }
 
             // Bitmeyen Şehir İnşaat Bloğu
             if (window.universeEngine) {
