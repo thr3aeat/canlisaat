@@ -3,22 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Canlı Saat - The Living Universe & Sürekli Evrilen Dijital Saat</title>
-    <meta name="description" content="Saat başı konfeti, havai fişek, guguk kuşu, balon patlatma, bitmeyen siberpunk şehir inşası, yerçekimi anomalisi, altın yağmuru ve 11:11 dilek modu içeren yaşayan evren masa saati.">
+    <title>Canlı Saat - The Living Universe & Kült Saat Deneyimi</title>
+    <meta name="description" content="Saat başı konfeti, havai fişek, guguk kuşu, bitmeyen siberpunk şehir inşası, üretken Lo-Fi ses manzarası, event radarı ve nadir anomali koleksiyonu içeren yaşayan dijital masa saati.">
     
     <!-- CSS Dosyaları -->
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/universe.css">
+    <link rel="stylesheet" href="css/moods.css">
+    <link rel="stylesheet" href="css/radar.css">
+    <link rel="stylesheet" href="css/collection.css">
     <link rel="stylesheet" href="css/animations.css">
 </head>
 <body>
 
     <!-- Arka Plan Canvas Katmanları -->
     <canvas id="universe-canvas" class="canvas-layer"></canvas>
+    <canvas id="mood-canvas" class="canvas-layer"></canvas>
     <canvas id="wish-canvas" class="canvas-layer"></canvas>
     <canvas id="fireworks-canvas" class="canvas-layer"></canvas>
     <canvas id="physics-canvas" class="canvas-layer"></canvas>
     <canvas id="frost-canvas" class="canvas-layer"></canvas>
+
+    <!-- Nadir Görsel Anomali Varlıkları -->
+    <div id="rare-eclipse" class="rare-eclipse hidden"></div>
+    <div id="rare-blackhole" class="rare-blackhole hidden"></div>
+    <div id="rare-skywhale" class="rare-skywhale hidden">🐋</div>
 
     <!-- Kozmik Portal & Canlı Event Varlıkları -->
     <div id="cosmic-portal" class="cosmic-portal"></div>
@@ -54,10 +63,22 @@
             </div>
 
             <div class="header-controls">
-                <button id="btn-color-splash" class="btn-glass" title="Renk Temasını Değiştir (S Tuşu)">
-                    🎨 <span class="btn-label">Renk Patlaması</span>
+                <!-- Atmosfer / Mood Seçici -->
+                <button id="btn-mood-switch" class="btn-glass" title="Atmosferi Değiştir (1, 2, 3, 4 Tuşları)">
+                    🎭 <span id="current-mood-name">Cyberpunk Void</span>
                 </button>
 
+                <!-- Üretken Lo-Fi / Ambiyans Sesi -->
+                <button id="btn-lofi" class="btn-glass" title="Üretken Lo-Fi / Ambiyans Sesini Aç/Kapat (L Tuşu)">
+                    🎵 <span class="btn-label">Lo-Fi Ambiyans</span>
+                </button>
+
+                <!-- Anomali Koleksiyon Albümü -->
+                <button id="btn-open-album" class="btn-glass" title="Keşfedilen Nadir Olaylar Albümü">
+                    🏆 <span class="btn-label">Anomaliler</span> <span id="album-count-badge" class="badge-pill">0/6</span>
+                </button>
+
+                <!-- Tipografi Modu -->
                 <select id="select-typography" class="select-glass" title="Sayı Animasyon Modu">
                     <option value="slot">🎰 Slot Machine</option>
                     <option value="liquid">💧 Sıvı / Cıva</option>
@@ -65,10 +86,12 @@
                     <option value="classic">⚡ Klasik Geçiş</option>
                 </select>
 
-                <button id="btn-sound" class="btn-glass active" title="Sesi Aç/Kapat (M Tuşu)">
+                <!-- Efekt Sesleri -->
+                <button id="btn-sound" class="btn-glass active" title="Efekt Seslerini Aç/Kapat (M Tuşu)">
                     🔊 <span class="btn-label">Ses Açık</span>
                 </button>
 
+                <!-- Tam Ekran -->
                 <button id="btn-fullscreen" class="btn-glass" title="Tam Ekran (F Tuşu)">
                     ⛶ <span class="btn-label">Tam Ekran</span>
                 </button>
@@ -96,7 +119,7 @@
                 
                 <div class="clock-status-bar">
                     <span id="current-date">-- -------- ----, --------</span>
-                    <span class="theme-pill" id="current-theme-name">Cyberpunk Neon</span>
+                    <span class="theme-pill" id="current-theme-name">Cyberpunk Void</span>
                 </div>
 
                 <!-- Dijital Rakamlar (Tıklanabilir Jöle Efektli) -->
@@ -125,8 +148,8 @@
                 </div>
 
                 <div class="clock-footer-info">
-                    <span>🏗️ Bitmeyen Şehir: Her saniye 1 blok eklenir | Tıklanabilir Jöle Fiziği</span>
-                    <span id="city-stats-badge" class="badge-pill">🏙️ Canlı Metropol</span>
+                    <span>🏗️ Bitmeyen Şehir: Her saniye 1 blok | 5 sn hareketsizlikte Screensaver TV Modu</span>
+                    <span id="city-stats-badge" class="badge-pill">🛡️ OLED Korumalı</span>
                 </div>
 
                 <!-- Saniye İlerleme Çizgisi -->
@@ -148,26 +171,26 @@
             <div class="simulation-bar">
                 <div class="sim-group">
                     <span class="sim-label">⚡ Efektleri Test Et:</span>
-                    <button id="test-sim-hour" class="btn-sim highlight" title="Saati 59:55'e sarar, 5 sn sonra tüm saat başı patlamalarını izleyin">
+                    <button id="test-sim-hour" class="btn-sim highlight" title="Saati 59:55'e sarar, 5 sn sonra saat başı kutlamasını izleyin">
                         ⏳ 59:55'e Sar
                     </button>
-                    <button id="test-sim-cuckoo" class="btn-sim" title="Guguk kuşunu hemen öttür (G tuşu)">
+                    <button id="test-sim-cuckoo" class="btn-sim" title="Guguk kuşunu öttür">
                         🐦 Guguk
                     </button>
-                    <button id="test-sim-fireworks" class="btn-sim" title="Gece havai fişek gösterisi (H tuşu)">
-                        🎆 Havai Fişek
+                    <button id="test-sim-fireworks" class="btn-sim" title="Gece havai fişek gösterisi">
+                        🎆 Fişek
                     </button>
-                    <button id="test-sim-confetti" class="btn-sim" title="Fiziksel 3D konfeti patlat (C tuşu)">
+                    <button id="test-sim-confetti" class="btn-sim" title="Fiziksel 3D konfeti patlat">
                         🎉 Konfeti
                     </button>
-                    <button id="test-sim-balloons" class="btn-sim" title="Balon yağmuru başlat (B tuşu)">
+                    <button id="test-sim-balloons" class="btn-sim" title="Balon yağmuru başlat">
                         🎈 Balon
                     </button>
                     <button id="test-sim-gravity" class="btn-sim" title="Yerçekimi anomalisini başlat">
                         ⚠️ Yerçekimi
                     </button>
                     <button id="test-sim-gold" class="btn-sim" title="Altın yağmuru ve toplama oyunu">
-                        🪙 Altın Yağmuru
+                        🪙 Altın
                     </button>
                     <button id="test-sim-ufo" class="btn-sim" title="UFO geçişini tetikle">
                         🛸 UFO
@@ -188,6 +211,33 @@
 
     </main>
 
+    <!-- EVENT RADAR & ZAMAN ÇİZGİSİ GÜNLÜĞÜ (HUD) -->
+    <div id="radar-hud" class="radar-hud">
+        <div class="radar-header">
+            <div class="radar-scanner-box">
+                <div class="radar-blip"></div>
+                <span class="radar-label">Radar:</span>
+                <span id="radar-anomaly-time" class="radar-time">~3 dk</span>
+            </div>
+            <button id="btn-toggle-radar" class="btn-radar-toggle" title="Olay Günlüğünü Aç/Kapat">📋 Günlük (<span id="radar-log-count">0</span>)</button>
+        </div>
+        <div id="radar-log-list" class="radar-drawer">
+            <div class="radar-empty">Henüz kaydedilmiş anomali yok.</div>
+        </div>
+    </div>
+
+    <!-- NADİR ANOMALİLER KOLEKSİYON ALBÜMÜ MODAL -->
+    <div id="album-modal" class="album-modal-backdrop">
+        <div class="album-modal-card">
+            <div class="album-header">
+                <h2 class="album-title">🏆 Görülen Anomaliler Koleksiyonu</h2>
+                <button id="close-album-btn" class="btn-glass">Kapat</button>
+            </div>
+            <p style="font-size: 0.85rem; color: rgba(255,255,255,0.8);">Zaman aktıkça nadir kozmik olaylara canlı şahit olun ve rozetlerin kilidini açın!</p>
+            <div id="album-grid" class="album-grid"></div>
+        </div>
+    </div>
+
     <!-- 11:11 / 22:22 Dilek Modu Pop-Up -->
     <div id="wish-modal" class="wish-modal-backdrop">
         <div class="wish-modal-card">
@@ -206,14 +256,18 @@
 
     <!-- JS Modül Dosyaları -->
     <script src="js/audio.js"></script>
+    <script src="js/moods.js"></script>
     <script src="js/universeEngine.js"></script>
     <script src="js/eventManager.js"></script>
+    <script src="js/radar.js"></script>
+    <script src="js/collection.js"></script>
     <script src="js/physics.js"></script>
     <script src="js/fireworks.js"></script>
     <script src="js/cuckoo.js"></script>
     <script src="js/characters.js"></script>
     <script src="js/typography.js"></script>
     <script src="js/wishMode.js"></script>
+    <script src="js/screensaver.js"></script>
     <script src="js/app.js"></script>
 
 </body>

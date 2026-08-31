@@ -61,7 +61,13 @@ class LiveClockApp {
         const universeCanvas = document.getElementById('universe-canvas');
         if (universeCanvas) window.universeEngine.init(universeCanvas);
 
+        const moodCanvas = document.getElementById('mood-canvas');
+        if (moodCanvas) window.moodEngine.init(moodCanvas);
+
         window.eventManager.init();
+        window.radarHUD.init();
+        window.collectionEngine.init();
+        window.screensaverEngine.init();
 
         const physicsCanvas = document.getElementById('physics-canvas');
         if (physicsCanvas) window.physicsEngine.init(physicsCanvas);
@@ -75,7 +81,6 @@ class LiveClockApp {
         window.wishMode.init();
 
         this.bindEvents();
-        this.applyTheme(0, false);
         this.updateClockDisplay(this.getCurrentDate());
 
         // Ana Saat Döngüsü (Hassas ms zamanlayıcı)
@@ -84,6 +89,28 @@ class LiveClockApp {
     }
 
     bindEvents() {
+        // Atmosfer / Mood Değiştirici Buton
+        const moodBtn = document.getElementById('btn-mood-switch');
+        if (moodBtn) {
+            moodBtn.addEventListener('click', () => {
+                const moods = ['cyberpunk', 'cosmos', 'ghibli', 'retro'];
+                const nextIndex = (moods.indexOf(window.moodEngine.currentMood) + 1) % moods.length;
+                window.moodEngine.setMood(moods[nextIndex]);
+            });
+        }
+
+        // Üretken Lo-Fi / Ambiyans Sesi Butonu
+        const lofiBtn = document.getElementById('btn-lofi');
+        if (lofiBtn) {
+            lofiBtn.addEventListener('click', () => {
+                const active = window.soundEngine.toggleAmbientSoundscape();
+                lofiBtn.classList.toggle('active', active);
+                lofiBtn.innerHTML = active 
+                    ? '🎵 <span class="btn-label">Lo-Fi: Açık</span>' 
+                    : '🎵 <span class="btn-label">Lo-Fi Ambiyans</span>';
+            });
+        }
+
         // Ses Butonu
         const muteBtn = document.getElementById('btn-sound');
         if (muteBtn) {
@@ -98,12 +125,6 @@ class LiveClockApp {
         const fsBtn = document.getElementById('btn-fullscreen');
         if (fsBtn) {
             fsBtn.addEventListener('click', () => this.toggleFullscreen());
-        }
-
-        // Renk Patlaması Butonu
-        const splashBtn = document.getElementById('btn-color-splash');
-        if (splashBtn) {
-            splashBtn.addEventListener('click', () => this.triggerColorSplash());
         }
 
         // Tipografi Modu Seçici
@@ -124,7 +145,6 @@ class LiveClockApp {
         document.getElementById('test-sim-fireworks')?.addEventListener('click', () => window.fireworksEngine.startShow(8000));
         document.getElementById('test-sim-confetti')?.addEventListener('click', () => window.physicsEngine.launchConfetti(200));
         document.getElementById('test-sim-balloons')?.addEventListener('click', () => window.physicsEngine.spawnBalloons(15));
-        document.getElementById('test-sim-parade')?.addEventListener('click', () => window.characterParade.startParade());
 
         // Canlı Event Simülasyon Butonları
         document.getElementById('test-sim-gravity')?.addEventListener('click', () => window.eventManager.triggerGravityGlitch());
@@ -133,17 +153,21 @@ class LiveClockApp {
         document.getElementById('test-sim-blizzard')?.addEventListener('click', () => window.eventManager.triggerBlizzard());
         document.getElementById('test-sim-boss')?.addEventListener('click', () => window.eventManager.triggerBossParade());
 
-        // Klavye Kısayolları
+        // Klavye Kısayolları (Mood 1-4, Lo-Fi L, F Fullscreen, M Mute vb.)
         window.addEventListener('keydown', (e) => {
             if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
             const key = e.key.toUpperCase();
+            if (key === '1') window.moodEngine.setMood('cyberpunk');
+            if (key === '2') window.moodEngine.setMood('cosmos');
+            if (key === '3') window.moodEngine.setMood('ghibli');
+            if (key === '4') window.moodEngine.setMood('retro');
+            if (key === 'L') document.getElementById('btn-lofi')?.click();
             if (key === 'F') this.toggleFullscreen();
             if (key === 'M') document.getElementById('btn-sound')?.click();
             if (key === 'C') window.physicsEngine.launchConfetti(180);
             if (key === 'B') window.physicsEngine.spawnBalloons(12);
             if (key === 'G') window.cuckooClock.trigger(3);
             if (key === 'H') window.fireworksEngine.startShow(6000);
-            if (key === 'S') this.triggerColorSplash();
             if (key === 'P') window.characterParade.startParade();
         });
     }
@@ -222,7 +246,8 @@ class LiveClockApp {
 
     // SAAT BAŞI KUTLAMALARI (XX:00:00)
     async onHourTurnover(hour) {
-        this.triggerColorSplash();
+        if (window.soundEngine) window.soundEngine.playHourGong();
+        if (window.radarHUD) window.radarHUD.addLogEntry(`🔔 Saat Başı Devri (${hour || 12}:00)`);
 
         // 0. Kozmik Enerji Portalı
         if (window.eventManager) {

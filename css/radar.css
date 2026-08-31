@@ -1,0 +1,152 @@
+/* ==========================================================================
+   Canlı Saat - Event Radar & Timeline HUD Stilleri
+   ========================================================================== */
+
+.radar-hud {
+    position: fixed;
+    bottom: 24px;
+    left: 24px;
+    background: rgba(18, 22, 38, 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 18px;
+    padding: 10px 16px;
+    z-index: 60;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 240px;
+    max-width: 320px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.radar-hud.radar-pulse {
+    border-color: var(--theme-primary);
+    box-shadow: 0 0 25px var(--theme-glow);
+}
+
+.radar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.radar-scanner-box {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.radar-blip {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--theme-primary);
+    box-shadow: 0 0 10px var(--theme-primary);
+    animation: blipPulse 1.5s infinite;
+}
+
+@keyframes blipPulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.6); opacity: 0.4; }
+}
+
+.radar-label {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.radar-time {
+    color: var(--theme-accent);
+    font-family: var(--font-clock);
+    font-size: 0.85rem;
+}
+
+.btn-radar-toggle {
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.8rem;
+    cursor: pointer;
+    padding: 2px 6px;
+    border-radius: 6px;
+    transition: color 0.2s;
+}
+
+.btn-radar-toggle:hover {
+    color: #FFF;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Genişletilebilir Log Çekmecesi */
+.radar-drawer {
+    display: none;
+    max-height: 180px;
+    overflow-y: auto;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 8px;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.radar-hud.expanded .radar-drawer {
+    display: flex;
+}
+
+.radar-drawer::-webkit-scrollbar {
+    width: 4px;
+}
+
+.radar-drawer::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+}
+
+.radar-log-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.8);
+    padding: 4px 6px;
+    border-radius: 6px;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.radar-log-item.rare-item {
+    border-left: 2px solid var(--theme-accent);
+    background: rgba(255, 215, 0, 0.08);
+}
+
+.log-time {
+    color: var(--theme-primary);
+    font-family: var(--font-clock);
+    font-weight: 700;
+    font-size: 0.7rem;
+}
+
+.log-title {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.rare-badge {
+    background: var(--theme-accent);
+    color: #111;
+    font-size: 0.6rem;
+    font-weight: 800;
+    padding: 1px 4px;
+    border-radius: 4px;
+}
+
+.radar-empty {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.4);
+    text-align: center;
+    padding: 8px;
+}

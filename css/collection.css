@@ -1,0 +1,187 @@
+/* ==========================================================================
+   Canlı Saat - Rozet Koleksiyonu, Screensaver & Toast Stilleri
+   ========================================================================== */
+
+/* 1. ANOMALİ ALBÜMÜ MODAL */
+.album-modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(4, 6, 15, 0.82);
+    backdrop-filter: blur(20px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 120;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s ease;
+}
+
+.album-modal-backdrop.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.album-modal-card {
+    background: linear-gradient(145deg, rgba(20, 26, 48, 0.95), rgba(10, 14, 28, 0.98));
+    border: 1px solid var(--theme-primary);
+    border-radius: 28px;
+    padding: 32px 36px;
+    width: 90%;
+    max-width: 820px;
+    max-height: 85vh;
+    overflow-y: auto;
+    box-shadow: 0 0 60px var(--theme-glow), 0 30px 60px rgba(0, 0, 0, 0.8);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    transform: scale(0.9);
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.album-modal-backdrop.active .album-modal-card {
+    transform: scale(1);
+}
+
+.album-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 16px;
+}
+
+.album-title {
+    font-family: var(--font-clock);
+    font-size: 1.3rem;
+    color: #FFF;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.album-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+}
+
+.album-card {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 18px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    transition: all 0.25s ease;
+}
+
+.album-card.unlocked {
+    border-color: var(--theme-primary);
+    background: rgba(0, 240, 255, 0.06);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.album-card.locked {
+    opacity: 0.55;
+    filter: grayscale(0.5);
+}
+
+.album-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--theme-accent);
+}
+
+.card-rarity {
+    font-size: 0.7rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.card-icon {
+    font-size: 2.2rem;
+    text-align: center;
+    margin: 4px 0;
+}
+
+.card-title {
+    font-family: var(--font-ui);
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: #FFF;
+}
+
+.card-desc {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.4;
+    flex: 1;
+}
+
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    padding-top: 8px;
+    margin-top: 4px;
+}
+
+.unlocked-date {
+    font-size: 0.65rem;
+    color: var(--theme-accent);
+}
+
+.locked-text {
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.btn-card-preview {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #FFF;
+    font-size: 0.7rem;
+    padding: 3px 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-card-preview:hover {
+    background: var(--theme-primary);
+    color: #111;
+    font-weight: 700;
+}
+
+/* 2. SCREENSAVER HAREKETSİZLİK MODU */
+body.screensaver-active .header-bar,
+body.screensaver-active .bottom-panel,
+body.screensaver-active .radar-hud {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+body.screensaver-active .header-bar {
+    transform: translateY(-20px);
+}
+
+.header-bar,
+.bottom-panel,
+.radar-hud {
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+/* 3. NADİR TOAST PARILTISI */
+.toast-msg.toast-rare {
+    background: linear-gradient(135deg, rgba(30, 20, 50, 0.95), rgba(60, 20, 80, 0.95));
+    border-color: #FFD700;
+    box-shadow: 0 0 35px rgba(255, 215, 0, 0.6), 0 10px 40px rgba(0, 0, 0, 0.8);
+}

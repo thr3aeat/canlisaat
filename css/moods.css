@@ -1,0 +1,100 @@
+/* ==========================================================================
+   Canlı Saat - Canlı Mood & Nadir Görsel Efektler
+   ========================================================================== */
+
+#mood-canvas {
+    z-index: 4;
+    pointer-events: none;
+}
+
+/* 1. GÜNEŞ TUTULMASI (SOLAR ECLIPSE) */
+.rare-eclipse {
+    position: fixed;
+    top: 20%;
+    right: 18%;
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    background: #050711;
+    box-shadow: 0 0 50px 15px #FFB800, 0 0 100px 30px #FF5500;
+    z-index: 6;
+    pointer-events: none;
+    opacity: 0;
+    transform: scale(0.6);
+    transition: all 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.rare-eclipse.hidden {
+    display: none;
+}
+
+.rare-eclipse.active {
+    opacity: 0.95;
+    transform: scale(1);
+    animation: eclipsePulse 3s infinite alternate ease-in-out;
+}
+
+@keyframes eclipsePulse {
+    0% { box-shadow: 0 0 50px 15px #FFB800, 0 0 90px 25px #FF5500; }
+    100% { box-shadow: 0 0 70px 25px #FFB800, 0 0 140px 45px #FF5500; }
+}
+
+/* 2. GİZEMLİ KARADELİK (SINGULARITY BLACK HOLE) */
+.rare-blackhole {
+    position: fixed;
+    top: 30%;
+    left: 15%;
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    background: #000000;
+    box-shadow: 0 0 40px 10px #9D4EDD, inset 0 0 20px #00F0FF;
+    z-index: 6;
+    pointer-events: none;
+    opacity: 0;
+    transform: scale(0.5) rotate(0deg);
+    transition: all 1.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.rare-blackhole.hidden {
+    display: none;
+}
+
+.rare-blackhole.active {
+    opacity: 0.92;
+    transform: scale(1) rotate(360deg);
+    animation: blackholeWarp 6s infinite linear;
+}
+
+@keyframes blackholeWarp {
+    0% { transform: scale(1) rotate(0deg); box-shadow: 0 0 40px 10px #9D4EDD, inset 0 0 20px #00F0FF; }
+    50% { transform: scale(1.08) rotate(180deg); box-shadow: 0 0 60px 18px #00F0FF, inset 0 0 30px #9D4EDD; }
+    100% { transform: scale(1) rotate(360deg); box-shadow: 0 0 40px 10px #9D4EDD, inset 0 0 20px #00F0FF; }
+}
+
+/* 3. GÖKYÜZÜ BALINASI (COSMIC SKY WHALE) */
+.rare-skywhale {
+    position: fixed;
+    top: 25%;
+    left: -400px;
+    font-size: 7rem;
+    z-index: 7;
+    pointer-events: none;
+    filter: drop-shadow(0 0 30px rgba(0, 240, 255, 0.8)) drop-shadow(0 0 60px rgba(121, 40, 202, 0.6));
+}
+
+.rare-skywhale.hidden {
+    display: none;
+}
+
+.rare-skywhale.flying {
+    animation: skyWhaleGlide 15s ease-in-out forwards;
+}
+
+@keyframes skyWhaleGlide {
+    0% { transform: translateX(0) translateY(0) rotate(2deg); opacity: 0; }
+    10% { opacity: 0.9; }
+    50% { transform: translateX(50vw) translateY(-40px) rotate(-4deg); }
+    90% { opacity: 0.9; }
+    100% { transform: translateX(calc(100vw + 500px)) translateY(10px) rotate(2deg); opacity: 0; }
+}

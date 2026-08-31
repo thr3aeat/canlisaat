@@ -518,6 +518,109 @@ class SoundEngine {
             osc.stop(now + 1.9);
         } catch (e) {}
     }
+
+    // 15. Saat Başı Yumuşak Tibet Gong / Çan Tonu
+    playHourGong() {
+        if (this.isMuted) return;
+        this.resume();
+        if (!this.ctx || !this.masterGain) return;
+        try {
+            const now = this.ctx.currentTime;
+            const freqs = [174.61, 261.63, 392.00, 523.25]; // F3, C4, G4, C5
+            freqs.forEach((freq, idx) => {
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = idx === 0 ? 'sine' : 'triangle';
+                osc.frequency.setValueAtTime(freq, now);
+
+                gain.gain.setValueAtTime(0.4 / (idx + 1), now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 4.5);
+
+                osc.connect(gain);
+                gain.connect(this.masterGain);
+
+                osc.start(now);
+                osc.stop(now + 4.6);
+            });
+        } catch (e) {}
+    }
+
+    // 16. Üretken Ambiyans & Lo-Fi Manzara (Generative Soundscape)
+    toggleAmbientSoundscape() {
+        this.ambientActive = !this.ambientActive;
+        this.resume();
+        if (!this.ctx) return false;
+
+        if (this.ambientActive) {
+            this.startAmbientSoundscape();
+        } else {
+            this.stopAmbientSoundscape();
+        }
+        return this.ambientActive;
+    }
+
+    startAmbientSoundscape() {
+        if (!this.ctx) return;
+        try {
+            this.ambientGain = this.ctx.createGain();
+            this.ambientGain.gain.setValueAtTime(0.001, this.ctx.currentTime);
+            this.ambientGain.gain.linearRampToValueAtTime(0.25, this.ctx.currentTime + 2.0);
+            this.ambientGain.connect(this.masterGain);
+
+            // Derin kozmik/lo-fi drone osilatörleri
+            this.ambientOsc1 = this.ctx.createOscillator();
+            this.ambientOsc2 = this.ctx.createOscillator();
+            const filter = this.ctx.createBiquadFilter();
+
+            this.ambientOsc1.type = 'sine';
+            this.ambientOsc1.frequency.setValueAtTime(110, this.ctx.currentTime); // A2
+
+            this.ambientOsc2.type = 'triangle';
+            this.ambientOsc2.frequency.setValueAtTime(164.81, this.ctx.currentTime); // E3
+
+            filter.type = 'lowpass';
+            filter.frequency.setValueAtTime(320, this.ctx.currentTime);
+
+            this.ambientOsc1.connect(filter);
+            this.ambientOsc2.connect(filter);
+            filter.connect(this.ambientGain);
+
+            this.ambientOsc1.start();
+            this.ambientOsc2.start();
+        } catch (e) {}
+    }
+
+    setSoundscapeMood(mood) {
+        if (!this.ambientActive || !this.ambientOsc1 || !this.ambientOsc2 || !this.ctx) return;
+        try {
+            const now = this.ctx.currentTime;
+            if (mood === 'cyberpunk') {
+                this.ambientOsc1.frequency.linearRampToValueAtTime(110, now + 1.5);
+                this.ambientOsc2.frequency.linearRampToValueAtTime(164.81, now + 1.5);
+            } else if (mood === 'cosmos') {
+                this.ambientOsc1.frequency.linearRampToValueAtTime(73.42, now + 1.5); // D2
+                this.ambientOsc2.frequency.linearRampToValueAtTime(146.83, now + 1.5); // D3
+            } else if (mood === 'ghibli') {
+                this.ambientOsc1.frequency.linearRampToValueAtTime(130.81, now + 1.5); // C3
+                this.ambientOsc2.frequency.linearRampToValueAtTime(196.00, now + 1.5); // G3
+            } else if (mood === 'retro') {
+                this.ambientOsc1.frequency.linearRampToValueAtTime(146.83, now + 1.5); // D3
+                this.ambientOsc2.frequency.linearRampToValueAtTime(220.00, now + 1.5); // A3
+            }
+        } catch (e) {}
+    }
+
+    stopAmbientSoundscape() {
+        if (this.ambientGain && this.ctx) {
+            try {
+                this.ambientGain.gain.linearRampToValueAtTime(0.001, this.ctx.currentTime + 1.0);
+                setTimeout(() => {
+                    if (this.ambientOsc1) { this.ambientOsc1.stop(); this.ambientOsc1.disconnect(); }
+                    if (this.ambientOsc2) { this.ambientOsc2.stop(); this.ambientOsc2.disconnect(); }
+                }, 1050);
+            } catch (e) {}
+        }
+    }
 }
 
 window.soundEngine = new SoundEngine();

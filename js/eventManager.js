@@ -136,6 +136,7 @@ class EventManager {
         this.showEventBanner('⚠️ DİKKAT: YERÇEKİMİ ANOMALİSİ ⚠️', 'Binalar ve parçacıklar ağırlıksız süzülüyor! Fareyle savurun.');
         if (window.soundEngine) window.soundEngine.playGravityShift();
         if (window.universeEngine) window.universeEngine.setZeroGravity(true);
+        if (window.radarHUD) window.radarHUD.addLogEntry('⚠️ Yerçekimi Anomalisi');
 
         // 16 saniye sonra yerçekimi geri gelir
         await this._delay(16000);
@@ -155,6 +156,7 @@ class EventManager {
 
         this.showEventBanner('💰 ALTIN YAĞMURU BAŞLADI! 💰', 'Düşen altın paralara tıklayarak toplayın!');
         if (window.soundEngine) window.soundEngine.playWishChime();
+        if (window.radarHUD) window.radarHUD.addLogEntry('🪙 Altın Yağmuru');
 
         const goldContainer = document.getElementById('golden-rush-layer');
         if (goldContainer) {
