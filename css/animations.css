@@ -1,0 +1,222 @@
+/* ==========================================================================
+   Canlı Saat - Animasyonlar & Efektler
+   ========================================================================== */
+
+/* 1. JÖLE (JELLY BOUNCE) FİZİĞİ */
+.jelly-active {
+    animation: jellySquish 0.75s cubic-bezier(0.25, 1, 0.5, 1) both;
+}
+
+@keyframes jellySquish {
+    0% { transform: scale(1, 1); }
+    20% { transform: scale(1.25, 0.75); }
+    40% { transform: scale(0.75, 1.25); }
+    60% { transform: scale(1.15, 0.85); }
+    80% { transform: scale(0.95, 1.05); }
+    100% { transform: scale(1, 1); }
+}
+
+/* 2. RAKAM TIKLAMA IŞIMA HALKASI (RIPPLE) */
+.digit-ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--theme-primary) 0%, rgba(255,255,255,0.8) 50%, transparent 80%);
+    opacity: 0.8;
+    transform: scale(0);
+    pointer-events: none;
+    animation: rippleGlow 0.6s ease-out forwards;
+}
+
+@keyframes rippleGlow {
+    to {
+        transform: scale(2.2);
+        opacity: 0;
+    }
+}
+
+/* 3. TİK ANİMASYONU */
+.digit-tick {
+    animation: digitPulse 0.15s ease-out;
+}
+
+@keyframes digitPulse {
+    0% { transform: translateY(-2px) scale(1.02); }
+    100% { transform: translateY(0) scale(1); }
+}
+
+/* 4. İKİ NOKTA YANIP SÖNME */
+@keyframes colonBlink {
+    0%, 49% { opacity: 1; }
+    50%, 100% { opacity: 0.25; }
+}
+
+/* 5. SLOT MAKİNESİ DÖNÜŞ & KİLİTLEME */
+.slot-spinning .digit-value {
+    animation: slotBlur 0.08s infinite linear;
+    filter: blur(2.5px);
+    color: var(--theme-accent);
+}
+
+.slot-locked {
+    animation: slotLockImpact 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes slotBlur {
+    0% { transform: translateY(-30%); opacity: 0.5; }
+    50% { transform: translateY(0); opacity: 1; }
+    100% { transform: translateY(30%); opacity: 0.5; }
+}
+
+@keyframes slotLockImpact {
+    0% { transform: scale(1.35) rotate(-3deg); border-color: #FFFFFF; }
+    50% { transform: scale(0.92) rotate(2deg); }
+    100% { transform: scale(1) rotate(0deg); }
+}
+
+/* 6. SIVI / CIVA GEÇİŞİ (METABALL MELT & FORM) */
+.liquid-melting .digit-box {
+    animation: liquidMelt 0.7s forwards cubic-bezier(0.55, 0.085, 0.68, 0.53);
+}
+
+.liquid-forming .digit-box {
+    animation: liquidForm 0.8s forwards cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes liquidMelt {
+    0% {
+        transform: translateY(0) scale(1);
+        border-radius: 20px;
+    }
+    40% {
+        transform: translateY(20px) scale(1.1, 0.8);
+        border-radius: 40% 40% 60% 60%;
+        filter: blur(4px);
+    }
+    100% {
+        transform: translateY(60px) scale(0.4, 1.5);
+        opacity: 0.2;
+        border-radius: 50%;
+        filter: blur(8px);
+    }
+}
+
+@keyframes liquidForm {
+    0% {
+        transform: translateY(60px) scale(0.3, 1.4);
+        opacity: 0.2;
+        filter: blur(8px);
+    }
+    60% {
+        transform: translateY(-8px) scale(1.15, 0.9);
+        border-radius: 30px;
+        filter: blur(1px);
+    }
+    100% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+        border-radius: 20px;
+        filter: blur(0);
+    }
+}
+
+/* 7. DOMİNO / BLOK YIKIMI (PIXEL COLLAPSE) */
+.block-collapse {
+    animation: blockFall 0.6s cubic-bezier(0.6, -0.28, 0.735, 0.045) forwards;
+}
+
+.block-rebuild {
+    animation: blockRise 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes blockFall {
+    0% { transform: translateY(0) rotate(0); }
+    30% { transform: translateY(-10px) rotate(4deg); }
+    100% { transform: translateY(80px) rotate(24deg) scale(0.6); opacity: 0; }
+}
+
+@keyframes blockRise {
+    0% { transform: translateY(-70px) rotate(-15deg) scale(0.6); opacity: 0; }
+    70% { transform: translateY(5px) rotate(2deg) scale(1.05); opacity: 1; }
+    100% { transform: translateY(0) rotate(0) scale(1); }
+}
+
+/* 8. GUGUK KUŞU ÖTÜŞ ANİMASYONU */
+.cuckoo-bird.singing {
+    animation: cuckooSing 0.75s ease-in-out;
+}
+
+@keyframes cuckooSing {
+    0% { transform: scale(1) translateY(-14px) rotate(0deg); }
+    25% { transform: scale(1.18) translateY(-22px) rotate(-10deg); }
+    50% { transform: scale(1.22) translateY(-24px) rotate(10deg); }
+    75% { transform: scale(1.15) translateY(-18px) rotate(-5deg); }
+    100% { transform: scale(1) translateY(-14px) rotate(0deg); }
+}
+
+/* 9. GEÇİT TÖRENİ (PARADE) ANİMASYONLARI */
+@keyframes marchAcross {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(calc(100vw + 900px));
+    }
+}
+
+@keyframes charBounce {
+    0% {
+        transform: translateY(0) rotate(0deg);
+    }
+    100% {
+        transform: translateY(-12px) rotate(6deg);
+    }
+}
+
+@keyframes bannerBob {
+    0% {
+        transform: translateY(0) rotate(-2deg);
+    }
+    100% {
+        transform: translateY(-8px) rotate(2deg);
+    }
+}
+
+/* 10. DİLEK GÖKYÜZÜNE YÜKSELME */
+@keyframes floatWishToSky {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, 0) scale(0.6);
+    }
+    15% {
+        opacity: 1;
+        transform: translate(-50%, -20px) scale(1.1);
+    }
+    80% {
+        opacity: 0.9;
+        transform: translate(-50%, -200px) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -320px) scale(0.3);
+    }
+}
+
+/* 11. RENK PATLAMASI DALGASI */
+@keyframes splashExpand {
+    0% {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 1;
+    }
+    70% {
+        opacity: 0.8;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1.2);
+        opacity: 0;
+    }
+}
+
+@keyframes pulseIcon {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.12); }
+}

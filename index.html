@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canlı Saat - The Living Universe & Sürekli Evrilen Dijital Saat</title>
+    <meta name="description" content="Saat başı konfeti, havai fişek, guguk kuşu, balon patlatma, bitmeyen siberpunk şehir inşası, yerçekimi anomalisi, altın yağmuru ve 11:11 dilek modu içeren yaşayan evren masa saati.">
+    
+    <!-- CSS Dosyaları -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/universe.css">
+    <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+
+    <!-- Arka Plan Canvas Katmanları -->
+    <canvas id="universe-canvas" class="canvas-layer"></canvas>
+    <canvas id="wish-canvas" class="canvas-layer"></canvas>
+    <canvas id="fireworks-canvas" class="canvas-layer"></canvas>
+    <canvas id="physics-canvas" class="canvas-layer"></canvas>
+    <canvas id="frost-canvas" class="canvas-layer"></canvas>
+
+    <!-- Kozmik Portal & Canlı Event Varlıkları -->
+    <div id="cosmic-portal" class="cosmic-portal"></div>
+    <div id="golden-rush-layer" class="golden-rush-layer"></div>
+    <div id="cosmic-ufo" class="cosmic-ufo hidden">
+        <div class="ufo-body">🛸</div>
+        <div class="ufo-beam"></div>
+    </div>
+    <div id="boss-creature" class="boss-creature hidden">🦖</div>
+
+    <!-- Event Uyarı Bannerı -->
+    <div id="event-banner" class="event-banner"></div>
+
+    <!-- SVG Metaball Filtresi (Sıvı/Cıva Geçişi İçin) -->
+    <svg style="position: absolute; width: 0; height: 0; overflow: hidden;" aria-hidden="true">
+        <defs>
+            <filter id="liquid-filter">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="0" result="blur" />
+                <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 1 0" />
+            </filter>
+        </defs>
+    </svg>
+
+    <!-- Ana Arayüz Kapsayıcısı -->
+    <main class="app-container">
+
+        <!-- Üst Kontrol & Başlık Çubuğu -->
+        <header class="header-bar">
+            <div class="brand-section">
+                <span class="brand-icon">⏱️</span>
+                <h1 class="brand-title">YAŞAYAN EVREN SAATİ</h1>
+                <span class="badge-pill" id="clock-period-badge">☀️ Gündüz Modu</span>
+            </div>
+
+            <div class="header-controls">
+                <button id="btn-color-splash" class="btn-glass" title="Renk Temasını Değiştir (S Tuşu)">
+                    🎨 <span class="btn-label">Renk Patlaması</span>
+                </button>
+
+                <select id="select-typography" class="select-glass" title="Sayı Animasyon Modu">
+                    <option value="slot">🎰 Slot Machine</option>
+                    <option value="liquid">💧 Sıvı / Cıva</option>
+                    <option value="blocks">🧱 Domino / Blok</option>
+                    <option value="classic">⚡ Klasik Geçiş</option>
+                </select>
+
+                <button id="btn-sound" class="btn-glass active" title="Sesi Aç/Kapat (M Tuşu)">
+                    🔊 <span class="btn-label">Ses Açık</span>
+                </button>
+
+                <button id="btn-fullscreen" class="btn-glass" title="Tam Ekran (F Tuşu)">
+                    ⛶ <span class="btn-label">Tam Ekran</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Merkez Saat Alanı & Guguk Kuşu -->
+        <section class="clock-center-wrapper">
+
+            <!-- Guguk Kuşu Yuvası -->
+            <div class="cuckoo-house-wrapper">
+                <div id="cuckoo-house" class="cuckoo-house">
+                    <div class="cuckoo-roof"></div>
+                    <div class="cuckoo-portal">
+                        <div id="cuckoo-door-left" class="cuckoo-door left"></div>
+                        <div id="cuckoo-door-right" class="cuckoo-door right"></div>
+                        <div id="cuckoo-bird" class="cuckoo-bird">🐦</div>
+                        <div id="cuckoo-bubble" class="cuckoo-bubble">GUGUK! ⏰</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ana Saat Kartı -->
+            <div id="clock-card" class="clock-main-card">
+                
+                <div class="clock-status-bar">
+                    <span id="current-date">-- -------- ----, --------</span>
+                    <span class="theme-pill" id="current-theme-name">Cyberpunk Neon</span>
+                </div>
+
+                <!-- Dijital Rakamlar (Tıklanabilir Jöle Efektli) -->
+                <div id="clock-digits-wrapper" class="clock-digits-wrapper" title="Rakamlara tıklayarak tınıları ve jöle fiziğini test edin!">
+                    <!-- Saat -->
+                    <div class="digit-group">
+                        <div class="digit-box" id="digit-h1"><span class="digit-value">0</span></div>
+                        <div class="digit-box" id="digit-h2"><span class="digit-value">0</span></div>
+                    </div>
+
+                    <div class="digit-colon">:</div>
+
+                    <!-- Dakika -->
+                    <div class="digit-group">
+                        <div class="digit-box" id="digit-m1"><span class="digit-value">0</span></div>
+                        <div class="digit-box" id="digit-m2"><span class="digit-value">0</span></div>
+                    </div>
+
+                    <div class="digit-colon">:</div>
+
+                    <!-- Saniye -->
+                    <div class="digit-group">
+                        <div class="digit-box" id="digit-s1"><span class="digit-value">0</span></div>
+                        <div class="digit-box" id="digit-s2"><span class="digit-value">0</span></div>
+                    </div>
+                </div>
+
+                <div class="clock-footer-info">
+                    <span>🏗️ Bitmeyen Şehir: Her saniye 1 blok eklenir | Tıklanabilir Jöle Fiziği</span>
+                    <span id="city-stats-badge" class="badge-pill">🏙️ Canlı Metropol</span>
+                </div>
+
+                <!-- Saniye İlerleme Çizgisi -->
+                <div class="seconds-bar-wrapper">
+                    <div id="seconds-bar" class="seconds-bar" style="width: 100%;"></div>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- Alt Panel: Geçit Töreni & Hızlı Test / Simülasyon Barı -->
+        <footer class="bottom-panel">
+
+            <!-- Mini Karakterler Geçit Parkuru -->
+            <div id="character-track" class="character-track hidden"></div>
+
+            <!-- Simülasyon & Test Kontrolleri -->
+            <div class="simulation-bar">
+                <div class="sim-group">
+                    <span class="sim-label">⚡ Efektleri Test Et:</span>
+                    <button id="test-sim-hour" class="btn-sim highlight" title="Saati 59:55'e sarar, 5 sn sonra tüm saat başı patlamalarını izleyin">
+                        ⏳ 59:55'e Sar
+                    </button>
+                    <button id="test-sim-cuckoo" class="btn-sim" title="Guguk kuşunu hemen öttür (G tuşu)">
+                        🐦 Guguk
+                    </button>
+                    <button id="test-sim-fireworks" class="btn-sim" title="Gece havai fişek gösterisi (H tuşu)">
+                        🎆 Havai Fişek
+                    </button>
+                    <button id="test-sim-confetti" class="btn-sim" title="Fiziksel 3D konfeti patlat (C tuşu)">
+                        🎉 Konfeti
+                    </button>
+                    <button id="test-sim-balloons" class="btn-sim" title="Balon yağmuru başlat (B tuşu)">
+                        🎈 Balon
+                    </button>
+                    <button id="test-sim-gravity" class="btn-sim" title="Yerçekimi anomalisini başlat">
+                        ⚠️ Yerçekimi
+                    </button>
+                    <button id="test-sim-gold" class="btn-sim" title="Altın yağmuru ve toplama oyunu">
+                        🪙 Altın Yağmuru
+                    </button>
+                    <button id="test-sim-ufo" class="btn-sim" title="UFO geçişini tetikle">
+                        🛸 UFO
+                    </button>
+                    <button id="test-sim-blizzard" class="btn-sim" title="Kar fırtınası ve buz kazıma">
+                        ❄️ Kar & Buz
+                    </button>
+                    <button id="test-sim-boss" class="btn-sim" title="Dev Godzilla şehir turu">
+                        🦖 Godzilla
+                    </button>
+                    <button id="test-sim-wish" class="btn-sim" title="11:11 Dilek modunu aç">
+                        🌟 11:11 Dilek
+                    </button>
+                </div>
+            </div>
+
+        </footer>
+
+    </main>
+
+    <!-- 11:11 / 22:22 Dilek Modu Pop-Up -->
+    <div id="wish-modal" class="wish-modal-backdrop">
+        <div class="wish-modal-card">
+            <h2 id="wish-modal-title" class="wish-title">🌟 11:11 - Bir Dilek Tut! 🌟</h2>
+            <p class="wish-desc">Evrenin kapıları açık! İçinden geçen en güzel dileği yaz ve gökyüzünün sonsuzluğuna bırak.</p>
+            <input type="text" id="wish-text" class="wish-input-box" placeholder="Dileğini buraya yaz..." maxlength="100">
+            <div class="wish-modal-actions">
+                <button id="send-wish-btn" class="btn-wish-send">✨ Dileğimi Göğe Bırak ✨</button>
+                <button id="close-wish-btn" class="btn-glass">Kapat</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bildirim Mesajı (Toast) -->
+    <div id="toast-msg" class="toast-msg"></div>
+
+    <!-- JS Modül Dosyaları -->
+    <script src="js/audio.js"></script>
+    <script src="js/universeEngine.js"></script>
+    <script src="js/eventManager.js"></script>
+    <script src="js/physics.js"></script>
+    <script src="js/fireworks.js"></script>
+    <script src="js/cuckoo.js"></script>
+    <script src="js/characters.js"></script>
+    <script src="js/typography.js"></script>
+    <script src="js/wishMode.js"></script>
+    <script src="js/app.js"></script>
+
+</body>
+</html>

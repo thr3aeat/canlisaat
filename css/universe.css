@@ -1,0 +1,234 @@
+/* ==========================================================================
+   Canlı Saat - The Living Universe & Events Stylesheet
+   ========================================================================== */
+
+/* 1. YAŞAYAN EVREN KATMANLARI */
+#universe-canvas {
+    z-index: 2;
+    pointer-events: none;
+}
+
+#frost-canvas {
+    z-index: 12;
+    pointer-events: none; /* Saati engellemez */
+}
+
+/* 2. EVENT BİLDİRİM BANNERI - Zarif ve Saati Kapatmayan Konum */
+.event-banner {
+    position: fixed;
+    top: 86px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50px) scale(0.9);
+    background: linear-gradient(135deg, rgba(20, 25, 45, 0.85), rgba(40, 20, 60, 0.85));
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(16px);
+    color: #FFFFFF;
+    padding: 8px 20px;
+    border-radius: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px var(--theme-glow);
+    z-index: 25;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.event-banner.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(1);
+}
+
+.event-banner strong {
+    font-family: var(--font-clock);
+    font-size: 0.95rem;
+    letter-spacing: 0.5px;
+}
+
+.event-banner span {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* 3. ALTIN YAĞMURU KATMANI */
+.golden-rush-layer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 40;
+    pointer-events: none;
+}
+
+.golden-rush-layer.active {
+    pointer-events: auto;
+}
+
+.gold-hud {
+    position: fixed;
+    top: 90px;
+    right: 24px;
+    background: linear-gradient(135deg, #FFD700, #FFA500);
+    color: #111;
+    font-family: var(--font-clock);
+    font-weight: 800;
+    font-size: 1rem;
+    padding: 8px 18px;
+    border-radius: 20px;
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.8);
+    border: 2px solid #FFFFFF;
+    z-index: 150;
+    animation: goldHudPulse 1s infinite alternate;
+}
+
+@keyframes goldHudPulse {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.06); }
+}
+
+.falling-gold-coin {
+    position: absolute;
+    top: -50px;
+    font-size: 2.2rem;
+    cursor: pointer;
+    filter: drop-shadow(0 0 10px #FFD700);
+    animation: coinFall linear forwards;
+    user-select: none;
+    transition: transform 0.2s, opacity 0.2s;
+}
+
+.falling-gold-coin:hover {
+    transform: scale(1.3);
+}
+
+.falling-gold-coin.collected {
+    transform: scale(2.2) rotate(360deg);
+    opacity: 0;
+}
+
+@keyframes coinFall {
+    0% {
+        transform: translateY(0) rotate(0deg);
+    }
+    100% {
+        transform: translateY(105vh) rotate(720deg);
+    }
+}
+
+/* 4. KOZMİK UFO & IŞIN */
+.cosmic-ufo {
+    position: fixed;
+    top: 15%;
+    left: -200px;
+    z-index: 15;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.cosmic-ufo.hidden {
+    display: none;
+}
+
+.cosmic-ufo.flying {
+    animation: ufoFlyAcross 14s linear forwards;
+}
+
+.ufo-body {
+    font-size: 3.5rem;
+    filter: drop-shadow(0 0 20px #00F0FF);
+    animation: ufoWobble 1s infinite ease-in-out alternate;
+}
+
+.ufo-beam {
+    width: 140px;
+    height: 350px;
+    background: linear-gradient(180deg, rgba(0, 240, 255, 0.6) 0%, rgba(121, 40, 202, 0.2) 70%, transparent 100%);
+    clip-path: polygon(40% 0%, 60% 0%, 100% 100%, 0% 100%);
+    margin-top: -15px;
+    animation: beamFlicker 0.3s infinite alternate;
+}
+
+@keyframes ufoFlyAcross {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(calc(100vw + 400px)); }
+}
+
+@keyframes ufoWobble {
+    0% { transform: translateY(0) rotate(-6deg); }
+    100% { transform: translateY(-15px) rotate(6deg); }
+}
+
+@keyframes beamFlicker {
+    0% { opacity: 0.6; }
+    100% { opacity: 0.95; }
+}
+
+/* 5. DEV GODZILLA / BOSS */
+.boss-creature {
+    position: fixed;
+    bottom: 2%;
+    left: -300px;
+    font-size: 6rem;
+    z-index: 18;
+    pointer-events: none;
+    filter: drop-shadow(0 0 25px rgba(0, 255, 128, 0.7));
+}
+
+.boss-creature.hidden {
+    display: none;
+}
+
+.boss-creature.stomping {
+    animation: bossStomp 12s linear forwards;
+}
+
+@keyframes bossStomp {
+    0% {
+        transform: translateX(0) translateY(0);
+    }
+    25% {
+        transform: translateX(30vw) translateY(-14px);
+    }
+    50% {
+        transform: translateX(55vw) translateY(0);
+    }
+    75% {
+        transform: translateX(80vw) translateY(-14px);
+    }
+    100% {
+        transform: translateX(calc(100vw + 400px)) translateY(0);
+    }
+}
+
+/* 6. KOZMİK SAAT BAŞI PORTALI */
+.cosmic-portal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    width: 320px;
+    height: 320px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #00F0FF 10%, #7928CA 45%, #FF007F 70%, transparent 100%);
+    box-shadow: 0 0 80px #00F0FF, 0 0 140px #FF007F;
+    z-index: 8;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.cosmic-portal.active {
+    opacity: 0.85;
+    transform: translate(-50%, -50%) scale(1.4) rotate(720deg);
+    animation: portalSpin 4s infinite linear;
+}
+
+@keyframes portalSpin {
+    0% { transform: translate(-50%, -50%) scale(1.4) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) scale(1.4) rotate(360deg); }
+}
