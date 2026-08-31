@@ -38,6 +38,21 @@ class EventManager {
         }, 10000);
     }
 
+    resizeFrost() {
+        if (!this.frostCanvas || !this.frostCtx) return;
+        const dpr = window.devicePixelRatio || 1;
+        this.frostCanvas.width = window.innerWidth * dpr;
+        this.frostCanvas.height = window.innerHeight * dpr;
+        this.frostCtx.scale(dpr, dpr);
+    }
+
+    checkPeriodicEvents(h, m) {
+        // Her 5 dakikada bir veya belirli dakikalarda ambient kontrol
+        if (m % 5 === 0 && !this.isBusy) {
+            this.triggerRandomAmbientEvent();
+        }
+    }
+
     setFrequency(mode) {
         this.frequencyMode = mode;
         if (window.radarHUD) {

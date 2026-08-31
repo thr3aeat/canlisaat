@@ -5,14 +5,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Outfit:wght@400;600;700;900&family=Press+Start+2P&family=Space+Grotesk:wght@500;700&display=swap');
 
 :root {
-    --theme-bg: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
+    --theme-bg: radial-gradient(ellipse at bottom, #111726 0%, #060810 100%);
     --theme-primary: #00F0FF;
     --theme-secondary: #FF007F;
     --theme-accent: #FFE600;
     --theme-glow: rgba(0, 240, 255, 0.45);
-    --glass-bg: rgba(18, 22, 38, 0.55);
-    --glass-border: rgba(255, 255, 255, 0.12);
-    --glass-shine: rgba(255, 255, 255, 0.06);
+    --glass-bg: rgba(18, 22, 38, 0.65);
+    --glass-border: rgba(255, 255, 255, 0.15);
+    --glass-shine: rgba(255, 255, 255, 0.08);
     --card-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 0 0 40px var(--theme-glow);
     --font-clock: 'Orbitron', 'Space Grotesk', sans-serif;
     --font-ui: 'Outfit', sans-serif;
@@ -47,37 +47,24 @@ html, body {
     pointer-events: none; /* Hiçbir canvas saati engellemez */
 }
 
-#physics-canvas {
-    z-index: 20;
-    pointer-events: none;
-}
-
-#fireworks-canvas {
-    z-index: 10;
-}
-
-#wish-canvas {
-    z-index: 5;
-}
-
 /* Ana Uygulama Düzeni */
 .app-container {
     position: relative;
-    z-index: 50; /* Saat ve butonlar her şeyin üstünde ve daima erişilebilir */
+    z-index: 50; /* Saat ve butonlar her zaman en üstte */
     width: 100vw;
     height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    padding: 24px;
+    padding: 20px 24px;
     pointer-events: auto;
 }
 
 /* --- ÜST BAŞLIK & KONTROL ÇUBUĞU --- */
 .header-bar {
     width: 100%;
-    max-width: 1200px;
+    max-width: 1240px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -86,7 +73,7 @@ html, body {
     -webkit-backdrop-filter: blur(20px);
     border: 1px solid var(--glass-border);
     border-radius: 20px;
-    padding: 12px 24px;
+    padding: 10px 20px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
@@ -97,14 +84,13 @@ html, body {
 }
 
 .brand-icon {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
     filter: drop-shadow(0 0 10px var(--theme-primary));
-    animation: pulseIcon 3s infinite ease-in-out;
 }
 
 .brand-title {
     font-family: var(--font-clock);
-    font-size: 1.3rem;
+    font-size: 1.15rem;
     font-weight: 800;
     letter-spacing: 1px;
     background: linear-gradient(135deg, #FFFFFF 30%, var(--theme-primary));
@@ -113,11 +99,11 @@ html, body {
 }
 
 .badge-pill {
-    font-size: 0.75rem;
+    font-size: 0.72rem;
     font-weight: 700;
     background: rgba(255, 255, 255, 0.08);
     border: 1px solid var(--glass-border);
-    padding: 4px 10px;
+    padding: 3px 10px;
     border-radius: 30px;
     letter-spacing: 0.5px;
     color: var(--theme-accent);
@@ -126,30 +112,30 @@ html, body {
 .header-controls {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
 }
 
 .btn-glass {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    background: rgba(255, 255, 255, 0.07);
+    gap: 6px;
+    background: rgba(255, 255, 255, 0.08);
     border: 1px solid var(--glass-border);
     color: #FFFFFF;
-    padding: 8px 16px;
+    padding: 7px 14px;
     border-radius: 12px;
     font-family: var(--font-ui);
-    font-size: 0.85rem;
+    font-size: 0.82rem;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .btn-glass:hover {
-    background: rgba(255, 255, 255, 0.16);
+    background: rgba(255, 255, 255, 0.18);
     border-color: var(--theme-primary);
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px var(--theme-glow);
+    box-shadow: 0 4px 16px var(--theme-glow);
 }
 
 .btn-glass:active {
@@ -165,13 +151,13 @@ html, body {
 }
 
 .select-glass {
-    background: rgba(18, 22, 38, 0.8);
+    background: rgba(18, 22, 38, 0.85);
     border: 1px solid var(--glass-border);
     color: #FFFFFF;
-    padding: 8px 14px;
+    padding: 7px 12px;
     border-radius: 12px;
     font-family: var(--font-ui);
-    font-size: 0.85rem;
+    font-size: 0.82rem;
     cursor: pointer;
     outline: none;
     transition: border-color 0.2s;
@@ -311,17 +297,16 @@ html, body {
     -webkit-backdrop-filter: blur(28px);
     border: 1px solid var(--glass-border);
     border-radius: 36px;
-    padding: 44px 56px 36px 56px;
+    padding: 40px 54px 32px 54px;
     box-shadow: var(--card-shadow);
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 20px;
+    gap: 18px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .clock-main-card:hover {
-    transform: translateY(-4px);
     box-shadow: 0 40px 80px rgba(0, 0, 0, 0.7), 0 0 60px var(--theme-glow);
 }
 
@@ -332,14 +317,14 @@ html, body {
     align-items: center;
     font-size: 0.95rem;
     font-weight: 600;
-    color: rgba(255, 255, 255, 0.8);
+    color: rgba(255, 255, 255, 0.85);
 }
 
+/* RAKAMLAR KAPSAYICISI (FİLTRE KALDIRILDI - %100 NET) */
 .clock-digits-wrapper {
     display: flex;
     align-items: center;
     gap: 16px;
-    filter: url(#liquid-filter); /* Cıva geçişi için SVG metaball filtresi */
 }
 
 .digit-group {
@@ -351,8 +336,8 @@ html, body {
     position: relative;
     width: 96px;
     height: 140px;
-    background: rgba(10, 14, 28, 0.75);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: rgba(10, 14, 28, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.18);
     border-radius: 20px;
     display: flex;
     align-items: center;
@@ -400,10 +385,10 @@ html, body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 0.85rem;
-    color: rgba(255, 255, 255, 0.65);
+    font-size: 0.82rem;
+    color: rgba(255, 255, 255, 0.7);
     border-top: 1px solid rgba(255, 255, 255, 0.08);
-    padding-top: 16px;
+    padding-top: 14px;
 }
 
 .theme-pill {
@@ -433,10 +418,10 @@ html, body {
 /* --- ALT KISIM: TEST & SİMÜLASYON BARLARI --- */
 .bottom-panel {
     width: 100%;
-    max-width: 1200px;
+    max-width: 1240px;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
     align-items: center;
 }
 
@@ -444,7 +429,7 @@ html, body {
 .character-track {
     position: relative;
     width: 100%;
-    height: 64px;
+    height: 60px;
     overflow: hidden;
     pointer-events: none;
 }
@@ -520,24 +505,24 @@ html, body {
     -webkit-backdrop-filter: blur(20px);
     border: 1px solid var(--glass-border);
     border-radius: 20px;
-    padding: 12px 20px;
+    padding: 10px 18px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
-    gap: 12px;
+    gap: 8px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
 }
 
 .sim-group {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     flex-wrap: wrap;
 }
 
 .sim-label {
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     font-weight: 700;
     color: var(--theme-accent);
     text-transform: uppercase;
@@ -549,14 +534,14 @@ html, body {
     background: rgba(255, 255, 255, 0.08);
     border: 1px solid var(--glass-border);
     color: #FFFFFF;
-    padding: 6px 12px;
+    padding: 5px 10px;
     border-radius: 10px;
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     font-weight: 600;
     cursor: pointer;
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: 5px;
     transition: all 0.2s ease;
 }
 
@@ -572,112 +557,10 @@ html, body {
     border-color: #FFFFFF44;
 }
 
-.btn-sim.highlight:hover {
-    box-shadow: 0 4px 20px rgba(255, 0, 127, 0.6);
-}
-
-/* --- DİLEK MODU MODAL --- */
-.wish-modal-backdrop {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(5, 8, 20, 0.75);
-    backdrop-filter: blur(16px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 100;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.35s ease;
-}
-
-.wish-modal-backdrop.active {
-    opacity: 1;
-    pointer-events: auto;
-}
-
-.wish-modal-card {
-    background: linear-gradient(145deg, rgba(30, 20, 50, 0.9), rgba(15, 10, 30, 0.95));
-    border: 2px solid var(--theme-accent);
-    border-radius: 30px;
-    padding: 36px 40px;
-    width: 90%;
-    max-width: 480px;
-    box-shadow: 0 0 50px rgba(255, 215, 0, 0.4), 0 20px 40px rgba(0, 0, 0, 0.8);
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    transform: scale(0.85);
-    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.wish-modal-backdrop.active .wish-modal-card {
-    transform: scale(1);
-}
-
-.wish-title {
-    font-family: var(--font-clock);
-    font-size: 1.4rem;
-    color: var(--theme-accent);
-    text-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
-}
-
-.wish-desc {
-    font-size: 0.95rem;
-    line-height: 1.5;
-    color: rgba(255, 255, 255, 0.85);
-}
-
-.wish-input-box {
-    width: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    border: 1px solid rgba(255, 215, 0, 0.4);
-    border-radius: 16px;
-    padding: 14px 18px;
-    color: #FFFFFF;
-    font-family: var(--font-ui);
-    font-size: 1rem;
-    outline: none;
-    transition: border-color 0.2s, box-shadow 0.2s;
-}
-
-.wish-input-box:focus {
-    border-color: var(--theme-accent);
-    box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
-}
-
-.wish-modal-actions {
-    display: flex;
-    gap: 12px;
-    justify-content: center;
-}
-
-.btn-wish-send {
-    background: linear-gradient(135deg, #FFD700, #FFA500);
-    color: #111;
-    font-weight: 800;
-    padding: 12px 28px;
-    border-radius: 14px;
-    border: none;
-    cursor: pointer;
-    font-size: 1rem;
-    box-shadow: 0 6px 20px rgba(255, 215, 0, 0.5);
-    transition: all 0.2s ease;
-}
-
-.btn-wish-send:hover {
-    transform: scale(1.05);
-    box-shadow: 0 8px 30px rgba(255, 215, 0, 0.8);
-}
-
 /* BİLDİRİM TOAST */
 .toast-msg {
     position: fixed;
-    top: 90px;
+    top: 86px;
     left: 50%;
     transform: translateX(-50%) translateY(-20px);
     background: rgba(18, 22, 38, 0.95);
@@ -700,35 +583,6 @@ html, body {
     transform: translateX(-50%) translateY(0);
 }
 
-/* YÜKSELEN DİLEK YAZISI */
-.floating-wish-text {
-    position: fixed;
-    transform: translate(-50%, -50%);
-    font-family: var(--font-ui);
-    font-size: 1.3rem;
-    font-weight: 800;
-    color: #FFF;
-    text-shadow: 0 0 20px #FFD700, 0 0 40px #FFA500;
-    pointer-events: none;
-    z-index: 120;
-    animation: floatWishToSky 4s forwards cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-
-/* RENK PATLAMASI DALGASI */
-.color-splash-wave {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(0);
-    width: 150vmax;
-    height: 150vmax;
-    border-radius: 50%;
-    z-index: 25;
-    pointer-events: none;
-    opacity: 0.85;
-    animation: splashExpand 0.8s cubic-bezier(0.1, 0.9, 0.2, 1) forwards;
-}
-
 /* RESPONSIVE TASARIM */
 @media (max-width: 900px) {
     .digit-box {
@@ -741,10 +595,10 @@ html, body {
         font-size: 3.2rem;
     }
     .clock-main-card {
-        padding: 30px 24px;
+        padding: 28px 20px;
     }
     .header-bar {
-        padding: 10px 16px;
+        padding: 10px 14px;
     }
     .sim-label {
         display: none;
@@ -768,7 +622,7 @@ html, body {
         gap: 6px;
     }
     .brand-title {
-        font-size: 1rem;
+        font-size: 0.95rem;
     }
     .btn-glass span.btn-label {
         display: none;
